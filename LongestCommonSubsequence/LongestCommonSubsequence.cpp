@@ -19,7 +19,8 @@ int numLines;
 
 
 //methods
-void lstLength(string x, string y);
+void lcsLength(string x, string y);
+void printLcs();
 
 
 
@@ -67,8 +68,61 @@ int main(int argc, char** argv)
 
 
 //method to find the longest common subsequence between 2 strings
-void lstLength(string x, string y) 
+void lcsLength(string x, string y) 
 {
+
+    //get the length of the strings
+    int m = x.length();
+    int n = y.length();
+
+    //create two tables for the numbers and the arrows
+    vector<vector<(m + 1)>> arrows;
+    vector<vector<(n + 1)>> numbers;
+
+
+    //make the first row and column filled with 0's
+    for (int i = 1; i < m; i++)
+    {
+        numbers[i, 0] = 0;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        numbers[0, i] = 0;
+    }
+
+
+    //
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 1; j < n)
+        {
+            if (x.charAt(i) == y.charAt(j))
+            {
+                //change the number
+                numbers[i, j] = (numbers[(i - 1), (j - 1)] + 1);
+
+                //assign the arrow
+                arrows[i, j] = "diagonal (up-left)";
+            }
+            else if (numbers[i - 1, j] >= numbers[i, j - 1])
+            {
+                //set the number
+                numbers[i, j] = numbers[(i - 1),j];
+
+                //assign the arrow
+                arrows[i, j] = "up";   
+            }
+            else
+            {
+                //set the number
+                numbers[i, j] = numbers[i, (j - 1)];
+
+                //assign the arrow
+                arrows[i, j] = "left";
+            }
+
+        }
+    }
 
 }
 
