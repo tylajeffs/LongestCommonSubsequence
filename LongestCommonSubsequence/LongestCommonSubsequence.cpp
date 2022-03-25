@@ -15,6 +15,9 @@ using namespace std;
 vector<string> lines;
 int numLines;
 
+//create two tables for the numbers and the arrows
+vector<vector<(m + 1)>> arrows;
+vector<vector<(n + 1)>> numbers;
 
 
 
@@ -57,6 +60,11 @@ int main(int argc, char** argv)
 
 
 
+    //call lcs length to construct tables
+    lcsLength(x, y);
+
+    //print the lcs
+    printLCS(x, x.length(), y.length());
 
 
 
@@ -75,28 +83,24 @@ void lcsLength(string x, string y)
     int m = x.length();
     int n = y.length();
 
-    //create two tables for the numbers and the arrows
-    vector<vector<(m + 1)>> arrows;
-    vector<vector<(n + 1)>> numbers;
-
 
     //make the first row and column filled with 0's
-    for (int i = 1; i < m; i++)
+    for (int i = 1; i <= m; i++)
     {
         numbers[i, 0] = 0;
     }
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i <= n; i++)
     {
         numbers[0, i] = 0;
     }
 
 
     //
-    for (int i = 1; i < m; i++)
+    for (int i = 1; i <= m; i++)
     {
-        for (int j = 1; j < n)
+        for (int j = 1; j <= n)
         {
-            if (x.charAt(i) == y.charAt(j))
+            if (x.[i-1] == y[j-1])
             {
                 //change the number
                 numbers[i, j] = (numbers[(i - 1), (j - 1)] + 1);
@@ -123,6 +127,37 @@ void lcsLength(string x, string y)
 
         }
     }
+
+}
+
+
+
+//print lcs method
+void printLCS(string x, int i, int j)
+{
+    if (i == 0 or j == 0)
+    {
+        return
+    }
+
+    if (arrows[i, j] == "diagonal (up-left)")
+    {
+        printLCS(x, i - 1, j - 1);
+
+        //print it
+        cout << x[i - 1];
+    }
+    else if (arrows[i, j] == "up")
+    {
+        //print
+        printLCS(x,i-1,j)
+
+    }
+    else
+    {
+        printLCS(x, i, j - 1);
+    }
+
 
 }
 
